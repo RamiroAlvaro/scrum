@@ -1,0 +1,11 @@
+from rest_framework import viewsets
+
+from .models import Sprint
+from .serializers import SprintSerializer
+
+
+class SprintViewSet(viewsets.ModelViewSet):
+    """Endpoint de la API para listar y crear sprints."""
+
+    queryset = Sprint.objects.order_by('end')
+    serializer_class = SprintSerializer

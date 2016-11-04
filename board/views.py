@@ -1,10 +1,13 @@
 from django.contrib.auth import get_user_model
+from django.views.generic import TemplateView
 from rest_framework import authentication, permissions, viewsets, filters
 from .forms import TaskFilter, SprintFilter
 from .models import Sprint, Task
 from .serializers import SprintSerializer, TaskSerializer, UserSerializer
 
 User = get_user_model()
+
+home = TemplateView.as_view(template_name='board/index.html')
 
 
 class DefaultsMixin(object):

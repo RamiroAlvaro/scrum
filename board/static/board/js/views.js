@@ -10,7 +10,7 @@
         },
         render: function () {
             var context = this.getContext(),
-                html = this.template(context);
+            html = this.template(context);
             this.$el.html(html);
         },
         getContext: function () {
@@ -30,7 +30,7 @@
             _.map(errors, function (fieldErrors, name) {
                 var field = $(':input[name=' + name + ']', this.form),
                     label = $('label[for=' + field.attr('id') + ']', this.form);
-                if (label.length === 0){
+                if (label.length === 0) {
                     label = $('label', this.form).first();
                 }
                 function appendError(msg) {
@@ -41,7 +41,7 @@
         },
         serializeForm: function (form) {
             return _.object(_.map(form.serializeArray(), function (item) {
-                //Converte o objeto para uma tupla (nome, valor)
+                // Convert object to tuple of (name, value)
                 return [item.name, item.value];
             }));
         },
@@ -64,7 +64,7 @@
     });
 
     var HomepageView = TemplateView.extend({
-        templateName: '#home-template',
+        templateName: '#home-template'
     });
 
     var LoginView = FormView.extend({
@@ -75,8 +75,8 @@
             FormView.prototype.submit.apply(this, arguments);
             data = this.serializeForm(this.form);
             $.post(app.apiLogin, data)
-                .success($.proxy(this.loginSuccess, this))
-                .fail($.proxy(this.loginFailure, this));
+                .done($.proxy(this.loginSuccess, this))
+                .fail($.proxy(this.failure, this));
         },
         loginSuccess: function (data) {
             app.session.save(data.token);
@@ -99,7 +99,6 @@
             window.location = '/';
         }
     });
-
 
     app.views.HomepageView = HomepageView;
     app.views.LoginView = LoginView;

@@ -39,7 +39,7 @@
     });
 
     var Session = Backbone.Model.extend({
-        defaults: {
+            defaults: {
             token: null
         },
         initialize: function (options) {
@@ -49,13 +49,13 @@
         },
         load: function () {
             var token = localStorage.apiToken;
-            if(token) {
+            if (token) {
                 this.set('token', token);
             }
         },
         save: function (token) {
             this.set('token', token);
-            if (token === null){
+            if (token === null) {
                 localStorage.removeItem('apiToken');
             } else {
                 localStorage.apiToken = token;
@@ -68,7 +68,7 @@
             return this.get('token') !== null;
         },
         _setupAuth: function (settings, originalOptions, xhr) {
-            if (this.authenticated()){
+            if (this.authenticated()) {
                 xhr.setRequestHeader(
                     'Authorization',
                     'Token ' + this.get('token')

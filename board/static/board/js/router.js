@@ -2,6 +2,7 @@
  * Created by ramiro on 3/11/16.
  */
 (function ($, Backbone, _, app) {
+
     var AppRouter = Backbone.Router.extend({
         routes: {
             '': 'home'
@@ -19,7 +20,7 @@
             this.render(view);
         },
         route: function (route, name, callback) {
-            //Sobrescreve a rota default para garantir o login en todas as paginas
+            // Override default route to enforce login on every page
             var login;
             callback = callback || this[name];
             callback = _.wrap(callback, function (original) {
@@ -27,9 +28,9 @@
                 if (app.session.authenticated()) {
                     original.apply(this, args);
                 } else {
-                    //Mostra a tela de login antes de chamar a view
+                    // Show the login screen before calling the view
                     $(this.contentElement).hide();
-                    // Associa a callback original depois que o login for feito con sucesso
+                    // Bind original callback once the login is successful
                     login = new app.views.LoginView();
                     $(this.contentElement).after(login.el);
                     login.on('done', function () {
@@ -37,14 +38,15 @@
                         $(this.contentElement).show();
                         original.apply(this, args);
                     }, this);
-                    // Renderiza o formulario de login
+                    // Render the login form
                     login.render();
                 }
             });
             return Backbone.Router.prototype.route.apply(this, [route, name, callback]);
         },
         render: function (view) {
-            if (this.current){
+            if (this.current) {
+                this.current.undelegateEvents();
                 this.current.$el = $();
                 this.current.remove();
             }
@@ -54,4 +56,5 @@
     });
 
     app.router = AppRouter;
+
 })(jQuery, Backbone, _, app);
